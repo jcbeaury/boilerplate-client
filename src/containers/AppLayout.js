@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
 import AppHeader from '../components/AppHeader'
 import AppSider from '../components/AppSider'
-
-import { Spin, Layout, } from 'antd';
+import { Layout } from 'antd';
 const { Content } = Layout;
 
 class AppLayout extends Component {
+  constructor(props) {
+    super(props);
+    if (!props.auth.isAuthenticated()) {
+      props.history.push('/login');
+    }
+  }
+
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { auth } = this.props;
 
     return (
-      <Layout style={{height:"100vh"}}>
-        {!isAuthenticated &&
-          <Spin style={{margin: 'auto'}} />
-        }
-
-        {isAuthenticated &&
+      <Layout>
+        {auth.isAuthenticated() &&
           <Layout>
-            <AppHeader />
+            <AppHeader {...this.props} />
 
             <Layout>
               <AppSider />

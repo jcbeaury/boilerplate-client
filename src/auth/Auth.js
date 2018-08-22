@@ -10,39 +10,33 @@ export default class Auth {
     scope: 'openid'
   });
 
-  constructor() {
-    this.isAuthenticated = this.isAuthenticated()
-  }
-
   login() {
     this.auth0.authorize();
   }
 
-  handleAuthentication() {
+  handleAuthentication(history) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        // go to home page
+        this.setSession(authResult, history);
       } else if (err) {
-        // go to home page
-        console.log(err);
+        history.push('/');
       }
     });
   }
 
-  setSession(authResult) {
+  setSession(authResult, history) {
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    // go to home page
+    history.push('/');
   }
 
-  logout() {
+  logout(history) {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-    // go to home page
+    history.push('/');
   }
 
   isAuthenticated() {

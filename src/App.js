@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
-import Auth from './Auth'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import AppLayout from './containers/AppLayout'
-import { Spin } from 'antd';
+import Authenticate from './auth/Authenticate'
+import Login from './auth/Login'
+import Logout from './auth/Logout'
+import Auth from './auth/Auth'
+import { Layout } from 'antd';
 
 class App extends Component {
   constructor(props) {
@@ -10,22 +13,19 @@ class App extends Component {
     this.state = { auth: new Auth() };
   }
 
-  handleAuthentication = (nextState, replace) => {
-    if (/access_token|id_token|error/.test(nextState.location.hash)) {
-      this.state.auth.handleAuthentication();
-    }
-  }
-
   render() {
+    const { auth } = this.state;
+
     return (
       <BrowserRouter>
-        <div>
-          <Route path="/" render={(props) => <AppLayout auth={this.state.auth} {...props} />} />
-          <Route path="/authenticate" render={(props) => {
-            this.handleAuthentication(props);
-            return <Spin style={{margin: 'auto'}} />
-          }}/>
-        </div>
+        <Layout style={{height:"100vh"}}>
+          <Switch>
+            <Route path="/authenticate" render={(props) => <Authenticate auth={auth} {...props} />} />
+            <Route path="/login" render={(props) => <Login auth={auth} {...props} />} />
+            <Route path="/logout" render={(props) => <Logout auth={auth} {...props} />} />
+            <Route render={(props) => <AppLayout auth={auth} {...props} />} />
+          </Switch>
+        </Layout>
       </BrowserRouter>
     )
   }
