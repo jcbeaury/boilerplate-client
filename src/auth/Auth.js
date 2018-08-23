@@ -5,7 +5,7 @@ export default class Auth {
     domain: 'hello-jcb.auth0.com',
     clientID: 'o7UMSRQ3BrqNpVsUGP55XfdqfoZ7D5ZB',
     redirectUri: window.location.origin + '/authenticate',
-    audience: 'https://hello-jcb.auth0.com/userinfo',
+    audience: 'boilerplate-server',
     responseType: 'token id_token',
     scope: 'openid'
   });
