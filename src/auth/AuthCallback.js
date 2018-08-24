@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Spin } from 'antd';
 
-class Authenticate extends Component {
+class AuthCallback extends Component {
   constructor(props) {
     super(props);
     if (/access_token|id_token|error/.test(props.location.hash)) {
@@ -18,4 +18,4 @@ class Authenticate extends Component {
   }
 }
 
-export default Authenticate
+export default AuthCallback

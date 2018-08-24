@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import SessionExpired from '../auth/SessionExpired'
 import AppHeader from '../components/AppHeader'
 import AppSider from '../components/AppSider'
 import Groups from './Groups'
@@ -10,8 +11,12 @@ const { Content } = Layout;
 class AppLayout extends Component {
   constructor(props) {
     super(props);
-    if (!props.auth.isAuthenticated()) {
-      props.history.push('/login');
+    this.authenticateIfNeeded();
+  }
+
+  authenticateIfNeeded() {
+    if (!this.props.auth.isAuthenticated()) {
+      this.props.history.push('/login');
     }
   }
 
@@ -20,6 +25,8 @@ class AppLayout extends Component {
 
     return (
       <Layout>
+        {!auth.isAuthenticated() && <SessionExpired />}
+
         {auth.isAuthenticated() &&
           <Layout>
             <AppHeader {...this.props} />
@@ -32,6 +39,7 @@ class AppLayout extends Component {
                   <Switch>
                     <Route path="/groups" render={(props) => <Groups {...props} />} />
                     <Route path="/employees" render={(props) => <Employees {...props} />} />
+                    <Redirect to="/groups" />
                   </Switch>
                 </Content>
               </Layout>
