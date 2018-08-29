@@ -10,7 +10,7 @@ class Groups extends Component {
   }
 
   async getGroups() {
-    const resp = await axios.get("http://localhost:3000/groups", { headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } })
+    const resp = await axios.get(`${process.env.REACT_APP_SERVER_URI}/groups`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } })
     this.setState({ groups: resp.data.groups });
   }
 

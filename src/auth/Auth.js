@@ -2,10 +2,10 @@ import auth0 from 'auth0-js';
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
-    domain: 'hello-jcb.auth0.com',
-    clientID: 'o7UMSRQ3BrqNpVsUGP55XfdqfoZ7D5ZB',
+    domain: process.env.REACT_APP_AUTH0_DOMAIN,
+    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
     redirectUri: window.location.origin + '/authenticate',
-    audience: 'boilerplate-server',
+    audience: process.env.REACT_APP_AUTH0_SERVER,
     responseType: 'token id_token',
     scope: 'openid'
   });

@@ -10,7 +10,7 @@ class Employees extends Component {
   }
 
   async getEmployees() {
-    const resp = await axios.get("http://localhost:3000/employees", { headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } })
+    const resp = await axios.get(`${process.env.REACT_APP_SERVER_URI}/employees`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } })
     this.setState({ employees: resp.data.employees });
   }
 
